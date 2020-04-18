@@ -1,7 +1,6 @@
 const fs = require('fs');
 const dirname = require('path').dirname;
 const rotaFile = dirname(__dirname) + '/rotations.json';
-const CONFIG = require('./CONFIG');
 
 const rota = (context) => {
   // Initialize concierge on first run

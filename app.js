@@ -15,14 +15,8 @@ const app = new App({
 
 /* BOT FUNCTIONALITY */
 
-// Routes
-router.post('/rota-bot', (req, res) => {
-  console.log(req);
-  res.send(req.challenge);
-});
-
-// Serve app
+// Serve Bolt app
 (async () => {
-  await app.start(process.env.PORT || 3000);
+  await app.start(process.env.BOLT_PORT || 3000);
   console.log('⚡️ Bolt app is running!');
 })();
