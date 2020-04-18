@@ -1,5 +1,6 @@
 // Require the Bolt package (github.com/slackapi/bolt)
-import { App } from "@slack/bolt";
+require('dotenv').config();
+const { App } = require('@slack/bolt');
 const fs = require('fs');
 const dirname = require('path').dirname;
 const rotaFile = dirname(__dirname) + '/rotations.json';
@@ -17,7 +18,7 @@ const app = new App({
 // Routes
 router.post('/rota-bot', (req, res) => {
   console.log(req);
-  return req.challenge;
+  res.send(req.challenge);
 });
 
 // Serve app
