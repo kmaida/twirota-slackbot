@@ -1,0 +1,22 @@
+{
+  "name": "rota-bot",
+  "version": "0.0.1",
+  "description": "Rotation concierge bot for Gatsby",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@slack/bolt": "^2.0.1",
+    "express": "^4.17.1"
+  },
+  "engines": {
+    "node": "12.x"
+  },
+  "author": "Kim Maida",
+  "repository": {
+    "url": "https://github.com/kmaida/rota-slackbot"
+  },
+  "license": "MIT",
+  "keywords": []
+}
