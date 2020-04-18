@@ -1,20 +1,18 @@
-// Import express and request modules
+// server.js
 const express = require('express');
 const request = require('request');
 const bodyParser = require('body-parser');
 
-// Instantiates Express and assigns our app variable to it
+// Server Setup
 const expressApp = express();
 expressApp.use(bodyParser.json());
-const PORT = process.env.NGROK_PORT || 8080;
+const PORT = process.env.SERVER_PORT || 8080;
 
-// Start Express server
 expressApp.listen(PORT, function() {
-  //Callback triggered when server is successfully listening. Hurray!
-  console.log("Example app listening on port " + PORT);
+  console.log(`Listening on port ${PORT}`);
 });
 
-// Event subscription verification URL (returns challenge)
+// Event subscription verification route (returns challenge)
 expressApp.post('/rota-bot', (req, res) => {
   res.send(req.body.challenge);
 });
@@ -29,16 +27,15 @@ expressApp.get('/oauth', function (req, res) {
     res.send({ "Error": "Looks like we're not getting code." });
     console.log("Looks like we're not getting code.");
   } else {
-    // If it's there...
-
-    // GET call to Slack's `oauth.access` endpoint, passing our app's client ID, client secret,
-    // and code we just got as query parameters.
+    // GET call to Slack's `oauth.access` endpoint, 
+    // passing our app's client ID, client secret,
+    // and code as query parameters.
     request({
       url: 'https://slack.com/api/oauth.access',
       qs: { 
         code: req.query.code,
         client_id: process.env.SLACK_CLIENT_ID,
-        client_secret: process.env_SLACK_CLIENT_SECRET
+        client_secret: process.env.SLACK_CLIENT_SECRET
       },
       method: 'GET',
     }, function (error, response, body) {
