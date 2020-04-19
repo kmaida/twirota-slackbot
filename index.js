@@ -4,8 +4,6 @@ const { App } = require('@slack/bolt');
 const fs = require('fs');
 const rotaFile = './rotations.json';
 
-console.log(rotaFile);
-
 // Create Bolt app
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -29,14 +27,14 @@ const getAssignmentId = (text) => {
 }
 
 /*------------------
-    BOT EVENTS
+    APP MENTIONS
 ------------------*/
 
 app.event('app_mention', async({ event, context }) => {
   // Gather applicable info
   const text = event.text;
   const normalizedText = text.toLowerCase();  // normalizes capitalization in commands
-  const sentByUser = `<@${event.user}>`;
+  const sentByUser = event.user;
   const channel = event.channel;
   const botToken = context.botToken;
 
@@ -136,17 +134,27 @@ app.event('app_mention', async({ event, context }) => {
   }
 
   /*--
-    Sending a message for the concierge
-    - Send a DM to the concierge notifying them where they're needed
-    - Notify if there is no concierge assigned
+    Send a message directly to the concierge
+    - Sends a DM to the concierge notifying them where they're needed
+    - Notify in channel if there is no concierge assigned
   --*/
-  else {
+  else if (!normalizedText.endsWith('> who') && !normalizedText.includes('> assign <@') && !normalizedText.endsWith('> help')) {
     try {
       const list = JSON.parse(fs.readFileSync(rotaFile));
       const oncallUser = list['twirota'];
 
       if (oncallUser) {
-        // @TODO: send a DM with a link to this message to the concierge
+        const link = `https://${process.env.SLACK_TEAM}.slack.com/archives/${event.channel}/p${event.ts.replace('.', '')}`;
+        const sendDM = await app.client.chat.postMessage({
+          token: botToken,
+          channel: sentByUser,
+          text: `Hi there! <@${sentByUser}> needs your attention in <#${event.channel}> (${link}) \n\n`
+        });
+        const sendPublicMsg = await app.client.chat.postMessage({
+          token: botToken,
+          channel: channel,
+          text: 'A message has been sent to the Twitter rotation concierge. If your message is urgent and you don\'t receive a reply within 15 minutes, please use `@here` or `@channel`.'
+        });
       } else {
         const result = await app.client.chat.postMessage({
           token: botToken,
@@ -164,6 +172,17 @@ app.event('app_mention', async({ event, context }) => {
       });
     }
   }
+
+  /*--
+    "help"
+  --*/
+  else if (normalizedText.endsWith('> help')) {
+    const result = await app.client.chat.postMessage({
+      token: botToken,
+      channel: channel,
+      text: 'Hi there, I\'m Twirota, the Twitter rotation concierge bot! Here\'s what I can do:\n• Ask `@twirota who` to check who is currently assigned for Twitter rotation.\n• Type `@twirota assign [@username]` to assign someone to Twitter rotation.\n• Mention `@twirota` in a message to send a DM to the person currently on call.\n• Enter `@twirota clear` to reset the rotation and unassign the person currently on call.'
+    });
+  }
   // Log useful things
   console.log('Event: ', event, 'Context: ', context);
 });
@@ -171,6 +190,7 @@ app.event('app_mention', async({ event, context }) => {
 /*------------------
      START APP
 ------------------*/
+
 (async () => {
   await app.start(port);
   console.log(`⚡️ Rota is running on ${port}!`);
