@@ -147,7 +147,7 @@ app.event('app_mention', async({ event, context }) => {
         const link = `https://${process.env.SLACK_TEAM}.slack.com/archives/${event.channel}/p${event.ts.replace('.', '')}`;
         const sendDM = await app.client.chat.postMessage({
           token: botToken,
-          channel: sentByUser,
+          channel: oncallUser.replace('<@', '').replace('>', ''),
           text: `Hi there! <@${sentByUser}> needs your attention in <#${event.channel}> (${link}) \n\n`
         });
         const sendPublicMsg = await app.client.chat.postMessage({
