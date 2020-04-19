@@ -38,10 +38,10 @@ app.event('app_mention', async({ event, context }) => {
   const channel = event.channel;
   const botToken = context.botToken;
 
-  /*--
+  /*------------------
     "assign [@user]"
     Assign a user to be the Twitter rotation concierge
-  --*/
+  ------------------*/
   if (normalizedText.includes('> assign <@')) {
     try {
       const assigned = getAssignmentId(text);
@@ -65,10 +65,10 @@ app.event('app_mention', async({ event, context }) => {
     }
   }
 
-  /*--
+  /*------------------
     "who"
     Find out who the Twitter rotation concierge is right now
-  --*/
+  ------------------*/
   else if (normalizedText.includes('> who') && normalizedText.endsWith(' who')) {
     try {
       const list = JSON.parse(fs.readFileSync(rotaFile));
@@ -98,10 +98,10 @@ app.event('app_mention', async({ event, context }) => {
     }
   }
 
-  /*--
+  /*------------------
     "clear"
     Assign a user to be the Twitter rotation concierge
-  --*/
+  ------------------*/
   if (normalizedText.includes('> clear') && normalizedText.endsWith('clear')) {
     try {
       const list = JSON.parse(fs.readFileSync(rotaFile));
@@ -133,11 +133,11 @@ app.event('app_mention', async({ event, context }) => {
     }
   }
 
-  /*--
+  /*------------------
     Send a message directly to the concierge
     - Sends a DM to the concierge notifying them where they're needed
     - Notify in channel if there is no concierge assigned
-  --*/
+  ------------------*/
   else if (!normalizedText.endsWith('> who') && !normalizedText.includes('> assign <@') && !normalizedText.endsWith('> help')) {
     try {
       const list = JSON.parse(fs.readFileSync(rotaFile));
@@ -173,9 +173,9 @@ app.event('app_mention', async({ event, context }) => {
     }
   }
 
-  /*--
+  /*------------------
     "help"
-  --*/
+  ------------------*/
   else if (normalizedText.endsWith('> help')) {
     const result = await app.client.chat.postMessage({
       token: botToken,
