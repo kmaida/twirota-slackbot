@@ -1,16 +1,14 @@
 {
   "name": "rota-bot",
   "version": "0.0.1",
-  "description": "Rotation concierge bot for Gatsby",
+  "description": "Rotation concierge bot for Gatsby Twitter concierge",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
     "@slack/bolt": "^2.0.1",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "request": "^2.88.2"
+    "dotenv": "^8.2.0"
   },
   "engines": {
     "node": "12.x"
