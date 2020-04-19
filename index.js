@@ -64,28 +64,21 @@ app.event('app_mention', async({ event, context }) => {
     BOT COMMANDS
 ------------------*/
 
-app.command('/twirota', async({ command, ack, say }) => {
+app.command('/twirota-assign', async({ command, ack, say }) => {
   await ack();
-  const commandText = command.text;
-  const textCaseNormalized = commandText.toLowerCase();
   console.log(command);
 
-  if (textCaseNormalized.includes('assign @')) {
-    const assignment = `<${textCaseNormalized.split('assign ')[1]}>`;
-    // try {
-      let list = fs.readFileSync(rotaFile);
-      list = JSON.parse(list);
-      list['twirota'] = assignment;
-      fs.writeFileSync(rotaFile, JSON.stringify(list, null, 2));
-      console.log(list);
-    // } catch (e) {
-    //   return 'An error has occurred while trying to assign the concierge.\n```' + JSON.stringify(e) + '```';
-    // }
-    await say(`${assignment} is now on-call for rotation concierge duties.`);
-  }
-  if (textCaseNormalized === 'who' || textCaseNormalized === 'on-call') {
-    await say(`Checking that for you...`);
-  }
+  const assignment = `<${command.text}>`;
+  // try {
+    let list = fs.readFileSync(rotaFile);
+    list = JSON.parse(list);
+    list['twirota'] = assignment;
+    fs.writeFileSync(rotaFile, JSON.stringify(list, null, 2));
+    console.log(list);
+  // } catch (e) {
+  //   await say('An error has occurred while trying to assign the concierge.\n```' + JSON.stringify(e) + '```');
+  // }
+  await say(`${assignment} is now on-call for rotation concierge duties.`);
 });
 
 /*------------------
