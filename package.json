@@ -1,7 +1,7 @@
 {
-  "name": "rota-bot",
-  "version": "0.0.1",
-  "description": "Rotation concierge bot for Gatsby Twitter concierge",
+  "name": "twirota",
+  "version": "0.1.0",
+  "description": "Twitter rotation concierge bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -15,8 +15,11 @@
   },
   "author": "Kim Maida",
   "repository": {
-    "url": "https://github.com/kmaida/rota-slackbot"
+    "url": "https://github.com/kmaida/twirota-slackbot"
   },
   "license": "MIT",
-  "keywords": []
+  "keywords": [
+    "slackapi",
+    "slackbot"
+  ]
 }
