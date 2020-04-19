@@ -2,9 +2,9 @@
   "name": "rota-bot",
   "version": "0.0.1",
   "description": "Rotation concierge bot for Gatsby",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "@slack/bolt": "^2.0.1",

@@ -88,4 +88,4 @@ const rota = (context) => {
   };
 };
 
-export default rota;
+module.exports = rota;
