@@ -1,6 +1,6 @@
 # Twirota
 
-Twirota is a simple **Twi**tter **rota**tion concierge Slackbot I wrote for [Gatsby](https://gatsbyjs.com). The inspiration was derived from my time working at [Auth0](https://auth0.com) and using Auth0's extremely useful concierge Slackbot.
+Twirota is a simple **Twi**tter **rota**tion concierge Slackbot I wrote for internal team use at [Gatsby](https://gatsbyjs.com). The inspiration was derived from my time working at [Auth0](https://auth0.com) and using Auth0's extremely useful concierge Slackbot.
 
 ## Usage
 
@@ -12,4 +12,4 @@ Twirota is a simple **Twi**tter **rota**tion concierge Slackbot I wrote for [Gat
 
 ## Installation
 
-(Coming soon)
+_(Coming soon)_
