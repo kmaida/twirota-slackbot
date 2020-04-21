@@ -32,10 +32,10 @@ const getAssignmentId = (text) => {
 
 app.event('app_mention', async({ event, context }) => {
   // Gather applicable info
-  const text = event.text;
-  const normalizedText = text.toLowerCase();  // normalizes capitalization in commands
-  const sentByUser = event.user;
-  const channel = event.channel;
+  const text = event.text;                           // raw text from the message mentioning @concierge
+  const normalizedText = text.toLowerCase().trim();  // normalizes format of text in commands
+  const sentByUser = event.user;                     // user ID
+  const channel = event.channel;                     // channel ID
   const botToken = context.botToken;
 
   /*------------------
@@ -69,7 +69,7 @@ app.event('app_mention', async({ event, context }) => {
     "who"
     Find out who the Twitter rotation concierge is right now
   ------------------*/
-  else if (normalizedText.includes('> who') && normalizedText.endsWith(' who')) {
+  else if (normalizedText.includes('> who') && normalizedText.endsWith('who')) {
     try {
       const list = JSON.parse(fs.readFileSync(rotaFile));
       const oncallName = list['twirota'];
@@ -138,7 +138,12 @@ app.event('app_mention', async({ event, context }) => {
     - Sends a DM to the concierge notifying them where they're needed
     - Notify in channel if there is no concierge assigned
   ------------------*/
-  else if (!normalizedText.endsWith('> who') && !normalizedText.includes('> assign <@') && !normalizedText.endsWith('> help')) {
+  else if (
+    !normalizedText.endsWith('> who') && 
+    !normalizedText.includes('> assign <@') && 
+    !normalizedText.endsWith('> help') && 
+    !normalizedText.endsWith('> clear')
+  ) {
     try {
       const list = JSON.parse(fs.readFileSync(rotaFile));
       const oncallUser = list['twirota'];
@@ -183,8 +188,6 @@ app.event('app_mention', async({ event, context }) => {
       text: 'Hi there, I\'m Twirota, the Twitter rotation concierge bot! Here\'s what I can do:\n• Ask `@twirota who` to check who is currently assigned for Twitter rotation.\n• Type `@twirota assign [@username]` to assign someone to Twitter rotation.\n• Mention `@twirota` in a message to send a DM to the person currently on call.\n• Enter `@twirota clear` to reset the rotation and unassign the person currently on call.'
     });
   }
-  // Log useful things
-  console.log('Event: ', event, 'Context: ', context);
 });
 
 /*------------------
@@ -193,5 +196,5 @@ app.event('app_mention', async({ event, context }) => {
 
 (async () => {
   await app.start(port);
-  console.log(`⚡️ Rota is running on ${port}!`);
+  console.log(`⚡️ Twiota is running on ${port}!`);
 })();
