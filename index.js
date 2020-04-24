@@ -34,10 +34,10 @@ const isAssign = (e, ct) => {
 const getAssignmentMsgTxt = (text) => {
   if (text) {
     return text
-      .toUpperCase()            // Normalize for inconsistency with "assign" text
-      .split('ASSIGN ')[1]      // Split into array and get first segment after "assign"
-      .match(/\<(.*?)\>/g)[0]   // Match only the first user ID (in case multiple were provided)
-      .toString();              // Array to string
+      .toUpperCase()                  // Normalize for inconsistency with "assign" text
+      .split('ASSIGN ')[1]            // Split into array and get first segment after "assign"
+      .match(/<@U[A-Z0-9]*?>/g)[0]    // Match only the first user ID (in case multiple were provided)
+      .toString();                    // Array to string
     // Expected output: '<@U01238R77J6>'
   }
 }
